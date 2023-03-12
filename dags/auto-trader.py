@@ -33,7 +33,7 @@ with DAG('docker_operator', default_args=default_args, schedule_interval="15 13 
 
     t2 = DockerOperator(
         task_id='docker_auto_trader',
-        image='investment-autotrade_trader:latest',
+        image='invest-to-stock:0.1',
         container_name='auto_trader',
         # catchup=True
         # auto_remove=True,
