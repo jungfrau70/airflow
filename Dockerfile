@@ -1282,7 +1282,7 @@ RUN if [[ ${INSTALL_PACKAGES_FROM_CONTEXT} == "true" ]]; then \
 # In case there is a requirements.txt file in "docker-context-files" it will be installed
 # during the build additionally to whatever has been installed so far. It is recommended that
 # the requirements.txt contains only dependencies with == version specification
-RUN if [[ -f /docker-context-files/requirements.txt ]]; then \
+RUN if [[ -f ~/docker-context-files/requirements.txt ]]; then \
         pip install --no-cache-dir --user -r /docker-context-files/requirements.txt; \
     fi
 

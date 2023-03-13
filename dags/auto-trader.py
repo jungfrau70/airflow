@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
 from airflow.operators.python import BranchPythonOperator
-from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.operators.empty import EmptyOperator
+from airflow.operators.docker import DockerOperator
+
 
 default_args = {
     'owner': 'airflow',
@@ -17,7 +17,8 @@ default_args = {
     'retry_delay': timedelta(minutes=5)
 }
 
-with DAG('docker_operator', default_args=default_args, schedule_interval="15 13 * * *", catchup=False) as dag:
+
+with DAG('docker_operator', default_args=default_args, schedule="15 13 * * *", catchup=False) as dag:
     start_dag = EmptyOperator(
         task_id='start_dag'
     )
@@ -35,22 +36,33 @@ with DAG('docker_operator', default_args=default_args, schedule_interval="15 13 
         task_id='docker_auto_trader',
         image='invest-to-stock:0.1',
         container_name='auto_trader',
-        # catchup=True
-        # auto_remove=True,
-        # docker_url="unix://var/run/docker.sock",
-        # network_mode="bridge"
+        api_version="auto",
+        auto_remove="force",
+        # command="sh /home/letyndr/airflow/dags/ml-intermediate/script.sh",
+        command="sleep 600",
+        docker_url="unix://var/run/docker.sock",
+        network_mode="bridge"
     )
 
     t3 = DockerOperator(
-        task_id='docker_network_tool',
-        image='wbitt/network-multitool:latest',
-        container_name='tnetwork_tool',
-        # api_version='auto',
-        # auto_remove=True,
-        # command="/bin/sleep 40",
-        # docker_url="unix://var/run/docker.sock",
-        # network_mode="bridge"
+        docker_url="unix://var/run/docker.sock",  # Set your docker URL
+        command="/bin/sleep 30",
+        image='invest-to-stock:0.1',
+        network_mode="bridge",
+        task_id="docker_op_tester",
+        dag=dag,
     )
+
+    # t3 = DockerOperator(
+    #     task_id='docker_network_tool',
+    #     image='wbitt/network-multitool:latest',
+    #     container_name='tnetwork_tool',
+    #     # api_version='auto',
+    #     # auto_remove=True,
+    #     # command="/bin/sleep 40",
+    #     # docker_url="unix://var/run/docker.sock",
+    #     # network_mode="bridge"
+    # )
 
     t4 = BashOperator(
         task_id='print_hello',
@@ -60,6 +72,6 @@ with DAG('docker_operator', default_args=default_args, schedule_interval="15 13 
     start_dag >> t1
 
     t1 >> t2 >> t4
-    t1 >> t3 >> t4
+    # t1 >> t3 >> t4
 
     t4 >> end_dag
