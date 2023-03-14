@@ -6,7 +6,6 @@ from tasks import file1
 from airflow.models import Variable
 from airflow.operators.bash import BashOperator
 
-WORKSPACE = '/home/ian/work/invest-to-stock'
 
 default_args = {
     'owner': 'airflow',
@@ -23,12 +22,14 @@ dag = DAG(
     'invest-to-stock',
     start_date=dt.datetime(2017, 1, 1),
     catchup=False,
-    schedule=dt.timedelta(days=1)
+    # schedule=dt.timedelta(days=1)
+    schedule="30 20 * * *"
 )
 
 t1 = BashOperator(
-    task_id='invest-to-stock',
-    bash_command=f'{WORKSPACE}/venv/bin/python {WORKSPACE}/app/main.py',
-    dag=dag)
+    task_id=f"stock-auto-trader",
+    bash_command=f"docker run invest-to-stock:0.1",
+    dag=dag
+)
 
 t1
