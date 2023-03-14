@@ -1,9 +1,6 @@
-from distutils.util import execute
-from airflow.operators.python import PythonOperator
-from airflow import DAG
 import datetime as dt
-from tasks import file1
-from airflow.models import Variable
+
+from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
