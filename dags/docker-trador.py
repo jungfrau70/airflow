@@ -3,8 +3,7 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import BranchPythonOperator
 from airflow.operators.empty import EmptyOperator
-from airflow.operators.docker import DockerOperator
-
+from airflow.providers.docker.operators.docker import DockerOperator
 
 default_args = {
     'owner': 'airflow',
@@ -40,12 +39,12 @@ with DAG('docker_operator', default_args=default_args, schedule="15 13 * * *", c
         auto_remove="force",
         # command="sh /home/letyndr/airflow/dags/ml-intermediate/script.sh",
         command="sleep 600",
-        docker_url="unix://var/run/docker.sock",
+        # docker_url="unix://var/run/docker.sock",
         network_mode="bridge"
     )
 
     t3 = DockerOperator(
-        docker_url="unix://var/run/docker.sock",  # Set your docker URL
+        # docker_url="unix://var/run/docker.sock",  # Set your docker URL
         command="/bin/sleep 30",
         image='invest-to-stock:0.1',
         network_mode="bridge",

@@ -51,7 +51,7 @@ x-airflow-common: &airflow-common
   volumes:
     # Just specify a path and let the Engine create a volume
     - ./dags:/opt/airflow/dags:z
-    - ./airflow.cfg:/opt/airflow/airflow.cfg
+    # - ./airflow.cfg:/opt/airflow/airflow.cfg
     - logs:/opt/airflow/logs
     - plugins:/opt/airflow/plugins
     - type: bind
