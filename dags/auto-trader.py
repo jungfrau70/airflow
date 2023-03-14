@@ -1,8 +1,11 @@
+import pendulum
 import datetime as dt
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
+
+tz = pendulum.timezone("America/New_York")
 
 default_args = {
     'owner': 'airflow',
@@ -16,11 +19,11 @@ default_args = {
 }
 
 dag = DAG(
-    'invest-to-stock',
+    'auto-investor',
     start_date=dt.datetime(2017, 1, 1),
     catchup=False,
     # schedule=dt.timedelta(days=1)
-    schedule="30 20 * * *"
+    schedule="15 9 * * *"
 )
 
 start_dag = EmptyOperator(
