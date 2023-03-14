@@ -23,7 +23,7 @@ dag = DAG(
     start_date=dt.datetime(2017, 1, 1),
     catchup=False,
     # schedule=dt.timedelta(days=1)
-    schedule="15 9 * * *"
+    schedule="30 8 * * *"
 )
 
 start_dag = EmptyOperator(
@@ -51,7 +51,7 @@ t2 = BashOperator(
 
 t3 = BashOperator(
     task_id=f"auto-bitcoin-trader",
-    bash_command=f"docker run invest-to-bitcoin:0.5",
+    bash_command=f"docker run -v /home/ian/work/invest-to-bitcoin/app/trade.log:/app/trade.log invest-to-bitcoin:0.8",
     dag=dag
 )
 
