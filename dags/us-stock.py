@@ -6,12 +6,13 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
 tz = pendulum.timezone("America/New_York")
+# tz = pendulum.timezone("Asia/Seoul")
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
     'start_date': dt.datetime.now(),
-    'email': ['airflow@airflow.com'],
+    'email': ['inhwan.jung@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
@@ -19,11 +20,11 @@ default_args = {
 }
 
 dag = DAG(
-    'auto-investor',
+    'auto-investor-4-us-stock',
     start_date=dt.datetime(2017, 1, 1),
     catchup=False,
     # schedule=dt.timedelta(days=1)
-    schedule="30 8 * * *"
+    schedule="20 9 * * *"
 )
 
 start_dag = EmptyOperator(
@@ -45,17 +46,11 @@ t1 = BashOperator(
 
 t2 = BashOperator(
     task_id=f"auto-stock-trader",
-    bash_command=f"docker run invest-to-stock:0.1",
+    bash_command=f"docker run -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.5",
     dag=dag
 )
 
 t3 = BashOperator(
-    task_id=f"auto-bitcoin-trader",
-    bash_command=f"docker run -v /home/ian/work/invest-to-bitcoin/app/trade.log:/app/trade.log invest-to-bitcoin:0.8",
-    dag=dag
-)
-
-t4 = BashOperator(
     task_id='print_end_datetime',
     bash_command='date',
     dag=dag
@@ -63,7 +58,6 @@ t4 = BashOperator(
 
 start_dag >> t1
 
-t1 >> t2 >> t4
-t1 >> t3 >> t4
+t1 >> t2 >> t3
 
-t4 >> end_dag
+t3 >> end_dag
