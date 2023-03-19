@@ -11,7 +11,6 @@ tz = pendulum.timezone("America/New_York")
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': dt.datetime.now(),
     'email': ['inhwan.jung@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -21,7 +20,7 @@ default_args = {
 
 dag = DAG(
     'auto-investor-4-us-stock',
-    start_date=dt.datetime(2017, 1, 1),
+    start_date=dt.datetime(2013, 3, 1, tzinfo=tz),
     catchup=False,
     # schedule=dt.timedelta(days=1)
     schedule="20 9 * * *"
@@ -46,7 +45,7 @@ t1 = BashOperator(
 
 t2 = BashOperator(
     task_id=f"auto-stock-trader",
-    bash_command=f"docker run -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.8",
+    bash_command=f"docker run -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.1",
     dag=dag
 )
 
