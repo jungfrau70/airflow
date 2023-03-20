@@ -10,7 +10,7 @@ tz = pendulum.timezone("America/New_York")
 
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
+    'depends_on_past': True,
     'email': ['inhwan.jung@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -19,11 +19,10 @@ default_args = {
 }
 
 dag = DAG(
-    'auto-investor-4-us-stock',
-    start_date=dt.datetime(2013, 3, 1, tzinfo=tz),
-    catchup=False,
-    # schedule=dt.timedelta(days=1)
-    schedule="20 9 * * *"
+    dag_id='auto-investor-4-us-stock',
+    schedule="20 9 * * *",
+    start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
+    default_args=default_args,
 )
 
 start_dag = EmptyOperator(

@@ -10,7 +10,7 @@ tz = pendulum.timezone("Asia/Seoul")
 
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
+    'depends_on_past': True,
     'email': ['inhwan.jung@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -19,12 +19,14 @@ default_args = {
 
 }
 
+
 dag = DAG(
-    'auto-investor-bitcoin',
-    start_date=dt.datetime(2013, 3, 1, tzinfo=tz),
+    dag_id='auto-investor-bitcoin',
     schedule="50 8 * * *",
-    catchup=False,
+    start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
+    default_args=default_args,
 )
+
 
 start_dag = EmptyOperator(
     task_id='start_dag',
@@ -45,7 +47,7 @@ t1 = BashOperator(
 
 t2 = BashOperator(
     task_id=f"auto-bitcoin-trader",
-    bash_command=f"docker run -v /home/ian/work/invest-to-bitcoin/app/trade.log:/app/trade.log invest-to-bitcoin:0.6",
+    bash_command=f"docker run -v /home/ian/work/invest-to-bitcoin/app/trade.log:/app/trade.log invest-to-bitcoin:0.8",
     dag=dag
 )
 
