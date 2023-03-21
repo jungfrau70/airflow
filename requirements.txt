@@ -1,5 +1,5 @@
 requests
 pandas
-apache-airflow
+apache-airflow[celery]
 apache-airflow-providers-docker
 python-dotenv
