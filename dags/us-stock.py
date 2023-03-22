@@ -19,8 +19,8 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='auto-investor-4-us-stock-v1',
-    schedule="20 9 * * *",
+    dag_id='auto-investor-4-us-stock-v2',
+    schedule="20 22 * * *",
     start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
     default_args=default_args,
     catchup=False,
