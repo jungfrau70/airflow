@@ -16,15 +16,15 @@ default_args = {
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': dt.timedelta(minutes=5),
-
 }
 
 
 dag = DAG(
-    dag_id='test',
+    dag_id='test-v2',
     schedule="50 8 * * *",
     start_date=dt.datetime(2023, 3, 18, tzinfo=tz),
     default_args=default_args,
+    catchup=False
 )
 
 
