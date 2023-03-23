@@ -22,7 +22,7 @@ default_args = {
 
 dag = DAG(
     dag_id='auto-investor-bitcoin-v0.11',
-    schedule="50 8 * * *",
+    schedule="55 8 * * *",
     start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
     default_args=default_args,
     catchup=False,
