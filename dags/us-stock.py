@@ -19,8 +19,8 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='auto-investor-4-us-stock-v0.11',
-    schedule="25 22 * * *",
+    dag_id='auto-investor-4-us-stock-v0.13',
+    schedule="20 9 * * *",
     start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
     default_args=default_args,
     catchup=False,
@@ -45,7 +45,7 @@ t1 = BashOperator(
 
 t2 = BashOperator(
     task_id=f"auto-stock-trader",
-    bash_command=f"docker run -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.11",
+    bash_command=f"docker run -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.13",
     dag=dag
 )
 
