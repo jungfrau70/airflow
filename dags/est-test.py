@@ -4,9 +4,9 @@ import datetime as dt
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
+from airflow.utils.timezone import datetime
 
-# tz = pendulum.timezone("America/New_York")
-tz = pendulum.timezone("Asia/Seoul")
+tz = pendulum.timezone("America/New_York")
 
 default_args = {
     'owner': 'airflow',
@@ -20,9 +20,9 @@ default_args = {
 
 
 dag = DAG(
-    dag_id='test-v2',
-    schedule="50 8 * * *",
-    start_date=dt.datetime(2023, 3, 18, tzinfo=tz),
+    dag_id='EST_TEST_09_30_v2.1',
+    schedule="30 9 * * *",
+    start_date=datetime(2023, 3, 18, tzinfo=tz),
     default_args=default_args,
     catchup=False
 )
@@ -47,7 +47,7 @@ t1 = BashOperator(
 
 t2 = BashOperator(
     task_id=f"auto-bitcoin-trader",
-    bash_command=f"echo 'bashOperator'; sleep 30",
+    bash_command=f"echo 'bashOperator'; sleep 300",
     dag=dag
 )
 
