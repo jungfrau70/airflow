@@ -27,7 +27,6 @@ dag = DAG(
     catchup=False
 )
 
-
 start_dag = EmptyOperator(
     task_id='start_dag',
     dag=dag

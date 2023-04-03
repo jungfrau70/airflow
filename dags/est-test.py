@@ -18,7 +18,6 @@ default_args = {
     'retry_delay': dt.timedelta(minutes=5),
 }
 
-
 dag = DAG(
     dag_id='EST_TEST_09_30_v2.1',
     schedule="30 9 * * *",
