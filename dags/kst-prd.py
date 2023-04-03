@@ -20,7 +20,7 @@ default_args = {
 
 
 dag = DAG(
-    dag_id='KST_TEST_08_50_v2.1',
+    dag_id='KST_PRD_08_50_v2.1',
     schedule="50 8 * * *",
     start_date=datetime(2023, 3, 18, tzinfo=tz),
     default_args=default_args,
