@@ -19,7 +19,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='stock-g2-v0.7',
+    dag_id='stockus-v0.8',
     schedule="32 9 * * *",
     start_date=datetime(2023, 3, 18, tzinfo=tz),
     default_args=default_args,
@@ -48,7 +48,7 @@ t2 = BashOperator(
     task_id=f"stock-trader-g2",
     bash_command=f'docker run --mount type=bind,source=/home/ian/work/airflow/dags/stock-g2.env,target=/app/.env,readonly \
         -v /home/ian/work/invest-to-stock/app/reports:/app/reports \
-        -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.7',
+        -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.8',
     dag=dag
 )
 
