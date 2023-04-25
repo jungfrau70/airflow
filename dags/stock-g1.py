@@ -19,7 +19,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='stockus-v0.8',
+    dag_id='stockus-ny1-v0.8',
     schedule="31 9 * * *",
     start_date=datetime(2023, 3, 18, tzinfo=tz),
     default_args=default_args,
