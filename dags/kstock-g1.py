@@ -4,26 +4,28 @@ import datetime as dt
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
-from airflow.utils.timezone import datetime
 
-tz = pendulum.timezone("America/New_York")
+# tz = pendulum.timezone("America/New_York")
+tz = pendulum.timezone("Asia/Seoul")
 
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
+    'depends_on_past': True,
     'email': ['inhwan.jung@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': dt.timedelta(minutes=5),
+
 }
 
+
 dag = DAG(
-    dag_id='stockus-ny2-v0.9',
-    schedule="0 8 * * *",
-    start_date=datetime(2023, 3, 18, tzinfo=tz),
+    dag_id='kstock-g1-v0.11',
+    schedule="0 9 * * *",
+    start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
     default_args=default_args,
-    catchup=False
+    catchup=False,
 )
 
 
@@ -45,10 +47,10 @@ t1 = BashOperator(
 )
 
 t2 = BashOperator(
-    task_id=f"stock-trader-g2",
-    bash_command=f'docker run --mount type=bind,source=/home/ian/work/airflow/dags/stock-g2.env,target=/app/.env,readonly \
+    task_id=f"go-trader-g1",
+    bash_command=f'docker run --mount type=bind,source=/home/ian/work/airflow/dags/kstock-g1.env,target=/app/.env,readonly \
         -v /home/ian/work/invest-to-stock/app/reports:/app/reports \
-        -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.9',
+        -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.11',
     dag=dag
 )
 
