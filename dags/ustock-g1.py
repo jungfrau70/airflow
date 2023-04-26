@@ -19,7 +19,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='ustock-g1-v0.11',
+    dag_id='ustock-g1-v0.11.1',
     schedule="0 9 * * *",
     start_date=datetime(2023, 3, 18, tzinfo=tz),
     default_args=default_args,
