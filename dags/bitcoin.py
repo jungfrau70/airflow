@@ -21,7 +21,7 @@ default_args = {
 
 
 dag = DAG(
-    dag_id='bitcoin-v1.21',
+    dag_id='bitcoin-v1.23',
     schedule="0 9 * * *",
     start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
     default_args=default_args,
@@ -50,7 +50,7 @@ t2 = BashOperator(
     task_id=f"bitcoin-trader",
     bash_command=f'docker run --mount type=bind,source=/home/ian/work/airflow/dags/bitcoin.env,target=/app/.env,readonly \
         -v /home/ian/work/invest-to-bitcoin/app/reports:/app/reports \
-        -v /home/ian/work/invest-to-bitcoin/app/trade.log:/app/trade.log invest-to-bitcoin:1.21',
+        -v /home/ian/work/invest-to-bitcoin/app/trade.log:/app/trade.log invest-to-bitcoin:1.23',
     dag=dag
 )
 
