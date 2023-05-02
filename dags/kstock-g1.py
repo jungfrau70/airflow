@@ -21,7 +21,7 @@ default_args = {
 
 
 dag = DAG(
-    dag_id='kstock-g1-v0.22',
+    dag_id='kstock-g1-v0.23',
     schedule="0 7 * * *",
     start_date=dt.datetime(2023, 3, 1, tzinfo=tz),
     default_args=default_args,
@@ -50,7 +50,7 @@ t2 = BashOperator(
     task_id=f"go-trader-g1",
     bash_command=f'docker run --mount type=bind,source=/home/ian/work/airflow/dags/kstock-g1.env,target=/app/.env,readonly \
         -v /home/ian/work/invest-to-stock/app/reports:/app/reports \
-        -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.22',
+        -v /home/ian/work/invest-to-stock/app/trade.log:/app/trade.log invest-to-stock:0.23',
     dag=dag
 )
 
