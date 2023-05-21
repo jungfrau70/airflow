@@ -47,7 +47,7 @@ t1 = BashOperator(
 )
 
 t2 = BashOperator(
-    task_id=f"bitcoin-trader",
+    task_id=f"crypto-trader",
     bash_command=f'docker run --mount type=bind,source=/home/ian/work/airflow/dags/crypto.env,target=/app/.env,readonly \
         -v /home/ian/work/crypto/app/reports:/app/reports \
         -v /home/ian/work/crypto/app/trade.log:/app/trade.log crypto:1.0',
